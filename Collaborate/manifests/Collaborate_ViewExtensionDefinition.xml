@@ -1,0 +1,4 @@
+﻿<ViewExtensionDefinition>
+  <AssemblyPath>..\bin\Collaborate.dll</AssemblyPath>
+  <TypeName>Collaborate.CollaborateViewExtension</TypeName>
+</ViewExtensionDefinition>
