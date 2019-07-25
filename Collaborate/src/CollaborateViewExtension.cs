@@ -5,6 +5,12 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using Dynamo.Wpf.Extensions;
+using Dynamo.Core;
+using Dynamo.Extensions;
+using Dynamo.Graph;
+using Dynamo.Models;
+using Dynamo.UI.Commands;
+using Dynamo.ViewModels;
 
 namespace Collaborate
 {
@@ -26,6 +32,11 @@ namespace Collaborate
     {
         private MenuItem sampleMenuItem;
 
+
+        private ViewLoadedParams viewLoadedParams;
+
+        private DynamoViewModel dynamoViewModel => viewLoadedParams.DynamoWindow.DataContext as DynamoViewModel;
+
         public void Dispose()
         {
         }
@@ -36,6 +47,10 @@ namespace Collaborate
 
         public void Loaded(ViewLoadedParams p)
         {
+
+            // Hold a reference to the Dynamo params to be used later
+            viewLoadedParams = p;
+
             // Save a reference to your loaded parameters.
             // You'll need these later when you want to use
             // the supplied workspaces
@@ -43,7 +58,10 @@ namespace Collaborate
             sampleMenuItem = new MenuItem { Header = "Show View Extension Sample Window" };
             sampleMenuItem.Click += (sender, args) =>
             {
-                var viewModel = new CollaborateWindowViewModel(p);
+                // On Click trigger a new instance of the view model.
+                var viewModel = new CollaborateWindowViewModel(p, dynamoViewModel);
+
+                // Create a new window
                 var window = new CollaborateWindow
                 {
                     // Set the data context for the main grid in the window.
